@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insurgency Wargame - Instructions</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #e4e4e7;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      color: #60a5fa;
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 16px;
+    }
+
+    h2 {
+      color: #93c5fd;
+      font-size: 1.75rem;
+      margin-top: 40px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #475569;
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      color: #a5b4fc;
+      font-size: 1.25rem;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: #cbd5e1;
+    }
+
+    .lead {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+
+    ul, ol {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      color: #cbd5e1;
+    }
+
+    strong {
+      color: #f1f5f9;
+    }
+
+    code {
+      background: #1e293b;
+      color: #fbbf24;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+    }
+
+    pre {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: #e2e8f0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      background: #1e293b;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #334155;
+    }
+
+    th {
+      background: #0f172a;
+      color: #93c5fd;
+      font-weight: 600;
+    }
+
+    td {
+      color: #cbd5e1;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #475569;
+      margin: 32px 0;
+    }
+
+    .toc {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+    }
+
+    .toc h3 {
+      margin-top: 0;
+      color: #60a5fa;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .toc li {
+      margin-bottom: 6px;
+    }
+
+    .toc a {
+      color: #93c5fd;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .toc a:hover {
+      color: #60a5fa;
+      text-decoration: underline;
+    }
+
+    .note {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 4px solid #3b82f6;
+      padding: 16px;
+      margin: 16px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .note strong {
+      color: #60a5fa;
+    }
+
+    .feature-box {
+      background: rgba(34, 197, 94, 0.1);
+      border-left: 4px solid #22c55e;
+      padding: 16px;
+      margin: 16px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .feature-box strong {
+      color: #22c55e;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #93c5fd;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 10px;
+      }
+
+      .container {
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">&larr; Back to Application</a>
+
+    <h1>Insurgency Wargame Application</h1>
+    <p class="lead">A web-based tool for moderating two-faction insurgency wargames. This application helps game moderators manage conflicts between a Government (Blue) faction and a Jihadist (Red) faction through an interactive map interface.</p>
+
+    <div class="toc">
+      <h3>Table of Contents</h3>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#getting-started">Getting Started</a></li>
+        <li><a href="#setup-phase">Setup Phase</a></li>
+        <li><a href="#play-phase">Play Phase</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#adding-custom-maps">Adding Custom Maps</a></li>
+        <li><a href="#browser-support">Browser Support</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <h2 id="overview">Overview</h2>
+    <p>The Insurgency Wargame Application is a static web application designed for tabletop-style wargame moderation. Teams communicate their actions verbally while the moderator uses this interface to:</p>
+    <ul>
+      <li>Track territorial control</li>
+      <li>Manage faction forces</li>
+      <li>Log game actions and outcomes</li>
+      <li>Visualize the strategic situation</li>
+    </ul>
+    <p><strong>No backend required</strong> - the application runs entirely in the browser.</p>
+
+    <hr>
+
+    <h2 id="getting-started">Getting Started</h2>
+    <p>When you first open the application, you'll enter the <strong>Setup Phase</strong> to configure your game. You can also <strong>Load a Saved Game</strong> to continue a previous session. After setup is complete, you'll transition to the <strong>Play Phase</strong> where the actual game is managed.</p>
+
+    <hr>
+
+    <h2 id="setup-phase">Setup Phase</h2>
+
+    <h3>Step 1: Select Map Template or Load Saved Game</h3>
+    <p>Choose from 9 available map templates based on the number of provinces you want in your game:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Template</th>
+          <th>Provinces</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Map 1</td><td>5 provinces</td></tr>
+        <tr><td>Map 2</td><td>10 provinces</td></tr>
+        <tr><td>Map 3</td><td>4 provinces</td></tr>
+        <tr><td>Map 4</td><td>4 provinces</td></tr>
+        <tr><td>Map 5</td><td>9 provinces</td></tr>
+        <tr><td>Map 6</td><td>11 provinces</td></tr>
+        <tr><td>Map 7</td><td>11 provinces</td></tr>
+        <tr><td>Map 8</td><td>13 provinces</td></tr>
+        <tr><td>Map 9</td><td>9 provinces</td></tr>
+      </tbody>
+    </table>
+
+    <p>Click on a template card to select it. You can use the <strong>Back to Templates</strong> button later if you want to change your selection.</p>
+
+    <div class="feature-box">
+      <strong>Load Saved Game:</strong> Click the "Load Saved Game" button to import a previously exported game. This will restore all game data including the map, province configurations, force levels, action log, and game progress, jumping directly to the play phase.
+    </div>
+
+    <h3>Step 2: Designate Capital</h3>
+    <p>Click on any province on the map to designate it as the capital city. The capital:</p>
+    <ul>
+      <li>Automatically starts under Government control</li>
+      <li>Is marked with a gold star icon</li>
+      <li>Cannot be assigned to the Jihadist faction during setup</li>
+    </ul>
+    <p>Click <strong>Confirm Capital</strong> to proceed.</p>
+
+    <h3>Step 3: Province Configuration</h3>
+    <p>Configure each province in alphabetical order (A, B, C, etc.). Provinces are labeled generically as "Country 1", "Country 2", etc. For each province, set:</p>
+
+    <p><strong>Control</strong> (required for non-capital provinces)</p>
+    <ul>
+      <li>Government (Blue)</li>
+      <li>Jihadist (Red)</li>
+    </ul>
+
+    <p><strong>Population Density</strong></p>
+    <ul>
+      <li>High</li>
+      <li>Moderate</li>
+      <li>Sparse</li>
+    </ul>
+
+    <p><strong>Sentiment</strong> (-100 to +100)</p>
+    <ul>
+      <li>Negative values = Pro-Jihadist sentiment</li>
+      <li>Zero = Neutral</li>
+      <li>Positive values = Pro-Government sentiment</li>
+    </ul>
+
+    <p><strong>Terrain</strong> (required)</p>
+    <ul>
+      <li>Mountains</li>
+      <li>Forest</li>
+      <li>Plain</li>
+    </ul>
+
+    <p><strong>Resources</strong> (optional, select any that apply)</p>
+    <ul>
+      <li>Oil/Gas Fields</li>
+      <li>Water Sources</li>
+      <li>Border Crossing</li>
+      <li>Seaport/Airport</li>
+      <li>Major Highway</li>
+      <li>Urban Center</li>
+      <li>Religious/Cultural Site</li>
+      <li>Agricultural Land</li>
+      <li>Mining Operations</li>
+      <li>Telecommunications Hub</li>
+    </ul>
+
+    <p>Use <strong>Previous</strong> and <strong>Next Province</strong> buttons to navigate. The current province is highlighted with a pulsing gold border on the map.</p>
+
+    <h3>Step 4: Initial Force Levels</h3>
+    <p>Set the starting force levels for each faction:</p>
+    <ul>
+      <li><strong>Government Forces</strong>: Total military units available</li>
+      <li><strong>Jihadist Forces</strong>: Total insurgent units available</li>
+    </ul>
+    <p>Click <strong>Start Game</strong> to begin the play phase.</p>
+
+    <hr>
+
+    <h2 id="play-phase">Play Phase</h2>
+
+    <h3>Interface Layout</h3>
+    <p>The play phase interface consists of:</p>
+    <ul>
+      <li><strong>Header Bar</strong>: Shows current turn, active faction, and game controls</li>
+      <li><strong>Left Sidebar</strong>: Forces panel and action log</li>
+      <li><strong>Center</strong>: Interactive map</li>
+      <li><strong>Right Sidebar</strong>: Province details and quick actions</li>
+    </ul>
+
+    <h3>Map Interaction</h3>
+    <p><strong>Hovering</strong> over a province displays a tooltip showing:</p>
+    <ul>
+      <li>Control status</li>
+      <li>Population density</li>
+      <li>Sentiment value</li>
+      <li>Terrain type</li>
+      <li>Resources</li>
+      <li>Active status flags</li>
+    </ul>
+
+    <p><strong>Clicking</strong> a province opens the Province Details panel where you can:</p>
+    <ul>
+      <li>Change control (Government/Jihadist)</li>
+      <li>Adjust sentiment</li>
+      <li>Toggle status flags (Under Siege, Blockaded, Contested)</li>
+    </ul>
+
+    <h3>Map Icons</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Icon</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Gold Star</td><td>Capital city</td></tr>
+        <tr><td>Anchor</td><td>Coastal province</td></tr>
+        <tr><td>Mountain</td><td>Mountain terrain</td></tr>
+        <tr><td>Tree</td><td>Forest terrain</td></tr>
+        <tr><td>Lines</td><td>Plain terrain</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Managing Forces</h3>
+    <p>The Forces panel shows current troop levels for both factions. Click the <strong>+</strong> or <strong>-</strong> buttons to adjust:</p>
+    <ol>
+      <li>Enter the adjustment amount (positive or negative)</li>
+      <li>Add a description for the change</li>
+      <li>Click <strong>Confirm</strong></li>
+    </ol>
+    <p>Force adjustments are automatically logged.</p>
+
+    <h3>Action Log</h3>
+    <p>The Action Log records all significant game events. To add an entry:</p>
+    <ol>
+      <li>Click <strong>+ Add Log Entry</strong></li>
+      <li>Select the acting faction</li>
+      <li>Choose a category: Military, Propaganda, Economic, Diplomatic, Recruitment, or Other</li>
+      <li>Select the outcome (Success/Partial/Failure)</li>
+      <li>Check affected provinces</li>
+      <li>Enter a description</li>
+      <li>Optionally add force adjustments</li>
+      <li>Click <strong>Create Entry</strong></li>
+    </ol>
+    <p>Log entries are displayed with color-coded faction indicators and outcome badges.</p>
+
+    <h3>Turn Management</h3>
+    <p>Click <strong>END TURN</strong> to:</p>
+    <ul>
+      <li>Increment the turn counter</li>
+      <li>Switch the active faction (Government ↔ Jihadist)</li>
+      <li>Update the turn history display</li>
+    </ul>
+    <p>The turn indicator in the header shows the current turn number and active faction.</p>
+
+    <h3>Game Controls</h3>
+    <p><strong>Export</strong>: Save the current game state as a JSON file. Use this to:</p>
+    <ul>
+      <li>Backup your game</li>
+      <li>Continue later</li>
+      <li>Share with others</li>
+    </ul>
+
+    <p><strong>Import</strong>: Load a previously saved game state. Select a JSON file exported from this application.</p>
+
+    <p><strong>New Game</strong>: Start over with a fresh setup. You'll be prompted to export first to avoid losing progress.</p>
+
+    <hr>
+
+    <h2 id="features">Features</h2>
+
+    <h3>Save and Load Games</h3>
+    <p>The application supports full game state persistence:</p>
+    <ul>
+      <li><strong>Export</strong>: Download the complete game state as a JSON file at any time during play</li>
+      <li><strong>Load Saved Game</strong>: From the setup screen, load a previously exported game to continue where you left off</li>
+      <li><strong>Import</strong>: During play, import a saved game (with confirmation to avoid accidental overwrites)</li>
+    </ul>
+
+    <p>The saved file includes:</p>
+    <ul>
+      <li>Selected map and all province configurations</li>
+      <li>Current turn number and active faction</li>
+      <li>Force levels for both factions</li>
+      <li>Complete action log history</li>
+      <li>Turn history</li>
+    </ul>
+
+    <h3>Province Status Flags</h3>
+    <p>Toggle these flags to track special conditions:</p>
+    <ul>
+      <li><strong>Under Siege</strong>: Province is currently under military siege</li>
+      <li><strong>Blockaded</strong>: Supply lines are cut off</li>
+      <li><strong>Contested</strong>: Active fighting for control</li>
+    </ul>
+
+    <h3>Coastal Provinces</h3>
+    <p>Provinces marked as coastal (anchor icon) represent territories with sea access, which may be strategically significant for naval operations or supply routes.</p>
+
+    <div class="note">
+      <strong>Note:</strong> Game state is not automatically saved. Export regularly to preserve your progress.
+    </div>
+
+    <hr>
+
+    <h2 id="adding-custom-maps">Adding Custom Maps</h2>
+    <p>You can add your own map files to the application. Maps are loaded dynamically from the <code>maps/</code> folder.</p>
+
+    <h3>Step 1: Create Your Map JSON File</h3>
+    <p>Create a JSON file with the following structure:</p>
+
+    <pre><code>{
+  "id": "my-custom-map",
+  "name": "My Custom Map (6 Provinces)",
+  "provinceCount": 6,
+  "viewBox": "0 0 800 600",
+  "provinces": [
+    {
+      "id": "A",
+      "title": "Country 1",
+      "coordinates": [[x1, y1], [x2, y2], ...],
+      "centroid": [cx, cy],
+      "isCoastal": true,
+      "neighbors": ["B", "C"]
+    },
+    ...
+  ]
+}</code></pre>
+
+    <h3>Field Descriptions</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>Unique identifier for the map</td></tr>
+        <tr><td><code>name</code></td><td>Display name shown in template selection</td></tr>
+        <tr><td><code>provinceCount</code></td><td>Number of provinces (optional, auto-calculated if missing)</td></tr>
+        <tr><td><code>viewBox</code></td><td>SVG viewBox dimensions (e.g., "0 0 800 600")</td></tr>
+        <tr><td><code>provinces</code></td><td>Array of province objects</td></tr>
+        <tr><td><code>provinces[].id</code></td><td>Province letter identifier (A, B, C...)</td></tr>
+        <tr><td><code>provinces[].title</code></td><td>Display name for the province (e.g., "Country 1")</td></tr>
+        <tr><td><code>provinces[].coordinates</code></td><td>Array of [x, y] points forming the province polygon</td></tr>
+        <tr><td><code>provinces[].centroid</code></td><td>[x, y] position for the province label</td></tr>
+        <tr><td><code>provinces[].isCoastal</code></td><td>Boolean - true if province has sea access</td></tr>
+        <tr><td><code>provinces[].neighbors</code></td><td>Array of adjacent province IDs</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Step 2: Upload the Map File</h3>
+    <p>Upload your JSON file to the <code>maps/</code> folder on your web server.</p>
+
+    <h3>Step 3: Update the Manifest</h3>
+    <p>Edit <code>maps/manifest.json</code> to include your new map file:</p>
+
+    <pre><code>{
+  "maps": [
+    "map-1.json",
+    "map-2.json",
+    "my-custom-map.json"
+  ]
+}</code></pre>
+
+    <p>The application will automatically load all maps listed in the manifest. Maps appear in the order listed.</p>
+
+    <h3>Tips for Creating Maps</h3>
+    <ul>
+      <li>Use an SVG editor to design your map, then extract coordinates</li>
+      <li>Province coordinates should form closed polygons</li>
+      <li>Centroid should be roughly in the center of each province</li>
+      <li>ViewBox should encompass all province coordinates with some padding</li>
+      <li>Use generic names like "Country 1", "Country 2" for provinces</li>
+      <li>Test your map by loading it in the application</li>
+    </ul>
+
+    <hr>
+
+    <h2 id="browser-support">Browser Support</h2>
+    <p>The application is tested and supported on:</p>
+    <ul>
+      <li>Google Chrome (recommended)</li>
+      <li>Mozilla Firefox</li>
+      <li>Microsoft Edge</li>
+    </ul>
+    <p><strong>Minimum screen width</strong>: 1024px</p>
+    <p>On smaller screens, a warning message will be displayed asking you to use a larger display.</p>
+
+    <hr>
+
+    <h2>Tips for Moderators</h2>
+    <ol>
+      <li><strong>Export frequently</strong> - Save your game state after major events</li>
+      <li><strong>Use the log</strong> - Document all faction actions for reference</li>
+      <li><strong>Status flags</strong> - Keep these updated to reflect the tactical situation</li>
+      <li><strong>Sentiment tracking</strong> - Adjust sentiment values as factions win hearts and minds</li>
+      <li><strong>Force adjustments</strong> - Always add descriptions to track why forces changed</li>
+      <li><strong>Load Saved Game</strong> - Use this feature to continue games across sessions</li>
+    </ol>
+
+    <hr>
+
+    <h2 id="troubleshooting">Troubleshooting</h2>
+
+    <p><strong>Map templates not loading?</strong></p>
+    <ul>
+      <li>Check that <code>maps/manifest.json</code> exists and lists your map files</li>
+      <li>Ensure map JSON files are in the <code>maps/</code> folder</li>
+      <li>Verify filenames in manifest.json match actual file names exactly</li>
+      <li>Check browser console (F12) for errors</li>
+      <li>Verify files are accessible on your web server</li>
+    </ul>
+
+    <p><strong>No maps appearing in selection?</strong></p>
+    <ul>
+      <li>The manifest.json file may be missing or malformed</li>
+      <li>Ensure manifest.json contains a valid <code>"maps"</code> array</li>
+    </ul>
+
+    <p><strong>Tooltip appearing off-screen?</strong></p>
+    <ul>
+      <li>The tooltip automatically repositions to stay within the viewport</li>
+      <li>Try moving your cursor closer to the center of the screen</li>
+    </ul>
+
+    <p><strong>Can't scroll in setup panels?</strong></p>
+    <ul>
+      <li>Ensure your browser window is at least 1024px wide</li>
+      <li>Try refreshing the page</li>
+    </ul>
+
+    <p><strong>Import/Load not working?</strong></p>
+    <ul>
+      <li>Verify the file is a valid JSON export from this application</li>
+      <li>Check that the file hasn't been corrupted or modified</li>
+      <li>Ensure you're selecting a .json file</li>
+    </ul>
+
+    <p><strong>Load Saved Game button not responding?</strong></p>
+    <ul>
+      <li>Check browser console for errors</li>
+      <li>Ensure JavaScript is enabled in your browser</li>
+    </ul>
+
+    <hr>
+
+    <h2>Author</h2>
+    <p><strong>Jalal Hussein</strong><br>
+    Email: <a href="mailto:jalalhussein@gmail.com" style="color: #60a5fa;">jalalhussein@gmail.com</a></p>
+
+    <hr>
+
+    <h2>License</h2>
+    <p>This project is licensed under the <strong>MIT License</strong>.</p>
+
+    <hr>
+
+    <h2>Credits</h2>
+    <p>Built as a static web application using HTML, CSS, and JavaScript. No external frameworks required.</p>
+  </div>
+</body>
+</html>

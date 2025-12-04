@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insurgency Wargame</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <!-- Minimum Width Warning -->
+    <div id="min-width-warning">
+      <div class="warning-content">
+        <h2>Screen Too Small</h2>
+        <p>This application requires a screen width of at least 1024px. Please use a larger display.</p>
+      </div>
+    </div>
+
+    <!-- Setup Phase -->
+    <div id="setup-phase" class="phase">
+      <header class="setup-header">
+        <h1>Insurgency Wargame Setup</h1>
+      </header>
+
+      <div class="setup-content">
+        <div class="map-area" id="setup-map-area">
+          <div class="map-placeholder">
+            <p>Select a map template to begin</p>
+          </div>
+          <svg id="setup-map-svg" class="map-svg hidden"></svg>
+        </div>
+
+        <div class="config-panel" id="config-panel">
+          <!-- Step 1: Template Selection -->
+          <div class="config-step" id="step-template">
+            <h2>Select Map Template</h2>
+            <div class="template-grid" id="template-grid">
+              <!-- Templates loaded dynamically -->
+            </div>
+            <div class="instructions-link">
+              <button class="btn btn-secondary" id="instructions-btn" onclick="window.open('readme.html', '_blank')">Instructions</button>
+              <label class="btn btn-secondary" for="setup-import-input">Load Saved Game</label>
+              <input type="file" id="setup-import-input" accept=".json" class="hidden">
+            </div>
+          </div>
+
+          <!-- Step 2: Capital Designation -->
+          <div class="config-step hidden" id="step-capital">
+            <h2>Designate Capital</h2>
+            <p class="instruction">Click a province on the map to set it as the capital. The capital starts under Government control.</p>
+            <div class="selection-indicator">
+              <span>Selected:</span>
+              <span id="capital-selection">None</span>
+            </div>
+            <div class="nav-buttons">
+              <button class="btn btn-secondary" id="back-to-templates-btn">&lt; Back to Templates</button>
+              <button class="btn btn-primary" id="confirm-capital-btn" disabled>Confirm Capital</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Province Configuration -->
+          <div class="config-step hidden" id="step-provinces">
+            <h2>Province Configuration: <span id="current-province-label">A</span> (<span id="province-progress">1/6</span>)</h2>
+
+            <div class="config-form">
+              <!-- Control Section -->
+              <div class="form-section" id="control-section">
+                <label class="form-label">Control:</label>
+                <div class="radio-group" id="control-radios">
+                  <label class="radio-label">
+                    <input type="radio" name="control" value="government">
+                    <span class="radio-text">Government</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="control" value="jihadist">
+                    <span class="radio-text">Jihadist</span>
+                  </label>
+                </div>
+                <div class="capital-note hidden" id="capital-note">
+                  <span class="note-text">Government (Capital)</span>
+                </div>
+              </div>
+
+              <!-- Population Section -->
+              <div class="form-section">
+                <label class="form-label">Population Density:</label>
+                <select class="form-select" id="density-select">
+                  <option value="">Select...</option>
+                  <option value="high">High</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="sparse">Sparse</option>
+                </select>
+              </div>
+
+              <div class="form-section">
+                <label class="form-label">Sentiment: <span id="sentiment-value">0</span></label>
+                <input type="range" class="form-range" id="sentiment-slider" min="-100" max="100" value="0">
+                <div class="range-labels">
+                  <span>-100 Jihadist</span>
+                  <span>0 Neutral</span>
+                  <span>+100 Government</span>
+                </div>
+              </div>
+
+              <!-- Terrain Section -->
+              <div class="form-section">
+                <label class="form-label">Terrain: (Select One)</label>
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input type="radio" name="terrain" value="mountain">
+                    <span class="radio-text">Mountains</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="terrain" value="forest">
+                    <span class="radio-text">Forest</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="terrain" value="plain">
+                    <span class="radio-text">Plain</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Resources Section -->
+              <div class="form-section">
+                <label class="form-label">Resources: (Select any that apply)</label>
+                <div class="checkbox-grid">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="oil">
+                    <span>Oil/Gas Fields</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="highway">
+                    <span>Major Highway</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="water">
+                    <span>Water Sources</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="urban">
+                    <span>Urban Center</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="border">
+                    <span>Border Crossing</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="religious">
+                    <span>Religious/Cultural Site</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="airport">
+                    <span>Seaport/Airport</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="agriculture">
+                    <span>Agricultural Land</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="mining">
+                    <span>Mining Operations</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="resources" value="telecom">
+                    <span>Telecommunications Hub</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="nav-buttons">
+              <button class="btn btn-secondary" id="prev-province-btn" disabled>&lt; Previous</button>
+              <button class="btn btn-primary" id="next-province-btn" disabled>Next Province &gt;</button>
+            </div>
+          </div>
+
+          <!-- Step 4: Force Assignment -->
+          <div class="config-step hidden" id="step-forces">
+            <h2>Initial Force Levels</h2>
+            <div class="force-inputs">
+              <div class="force-input-group">
+                <label class="form-label government-label">Government Forces:</label>
+                <input type="number" class="form-input" id="gov-forces-input" min="0" value="1000">
+                <span class="unit-label">units</span>
+              </div>
+              <div class="force-input-group">
+                <label class="form-label jihadist-label">Jihadist Forces:</label>
+                <input type="number" class="form-input" id="jih-forces-input" min="0" value="500">
+                <span class="unit-label">units</span>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-large" id="start-game-btn">Start Game</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Play Phase -->
+    <div id="play-phase" class="phase hidden">
+      <header class="play-header">
+        <h1 class="app-title">Insurgency Wargame</h1>
+        <div class="turn-indicator">
+          <span class="turn-label">TURN</span>
+          <span class="turn-number" id="turn-number">1</span>
+          <span class="turn-separator">—</span>
+          <span class="faction-badge" id="faction-badge">GOVERNMENT</span>
+        </div>
+        <div class="header-controls">
+          <button class="btn btn-secondary btn-icon" id="export-btn" title="Export Game">
+            <img src="assets/icons/download.svg" alt="Export">
+            <span>Export</span>
+          </button>
+          <button class="btn btn-secondary btn-icon" id="import-btn" title="Import Game">
+            <img src="assets/icons/upload.svg" alt="Import">
+            <span>Import</span>
+          </button>
+          <button class="btn btn-secondary btn-icon" id="new-game-btn" title="New Game">
+            <img src="assets/icons/plus.svg" alt="New">
+            <span>New Game</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="play-content">
+        <aside class="left-sidebar">
+          <!-- Forces Panel -->
+          <div class="panel forces-panel">
+            <h3 class="panel-title">FORCES</h3>
+            <div class="force-display">
+              <div class="force-row government">
+                <span class="force-label">Government</span>
+                <div class="force-controls">
+                  <button class="btn-adjust" id="gov-minus" title="Decrease">-</button>
+                  <span class="force-value" id="gov-force-value">1,000</span>
+                  <button class="btn-adjust" id="gov-plus" title="Increase">+</button>
+                </div>
+              </div>
+              <div class="force-row jihadist">
+                <span class="force-label">Jihadist</span>
+                <div class="force-controls">
+                  <button class="btn-adjust" id="jih-minus" title="Decrease">-</button>
+                  <span class="force-value" id="jih-force-value">500</span>
+                  <button class="btn-adjust" id="jih-plus" title="Increase">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Log Panel -->
+          <div class="panel action-log-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">ACTION LOG</h3>
+              <span class="log-count" id="log-count">0</span>
+            </div>
+            <div class="action-log" id="action-log">
+              <div class="empty-log">No actions recorded yet</div>
+            </div>
+          </div>
+
+          <!-- Add Log Entry Button -->
+          <button class="btn btn-primary btn-full" id="add-log-btn">
+            <img src="assets/icons/plus.svg" alt="+">
+            <span>Add Log Entry</span>
+          </button>
+        </aside>
+
+        <main class="map-container">
+          <svg id="play-map-svg" class="map-svg"></svg>
+          <div class="province-tooltip hidden" id="province-tooltip"></div>
+        </main>
+
+        <aside class="right-sidebar">
+          <!-- Province Details Panel -->
+          <div class="panel province-details-panel hidden" id="province-details-panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Province <span id="detail-province-id">A</span></h3>
+              <button class="btn-close" id="close-details-btn">
+                <img src="assets/icons/close.svg" alt="Close">
+              </button>
+            </div>
+            <div class="panel-content">
+              <div class="form-section">
+                <label class="form-label">Control:</label>
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input type="radio" name="detail-control" value="government">
+                    <span class="radio-text">Government</span>
+                  </label>
+                  <label class="radio-label">
+                    <input type="radio" name="detail-control" value="jihadist">
+                    <span class="radio-text">Jihadist</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <label class="form-label">Sentiment: <span id="detail-sentiment-value">0</span></label>
+                <input type="range" class="form-range" id="detail-sentiment-slider" min="-100" max="100" value="0">
+              </div>
+
+              <div class="form-section">
+                <label class="form-label">Status Flags:</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="status" value="underSiege">
+                    <span>Under Siege</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="status" value="blockaded">
+                    <span>Blockaded</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="status" value="contested">
+                    <span>Contested</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="fixed-attributes" id="fixed-attributes">
+                <p><strong>Population:</strong> <span id="detail-population">-</span></p>
+                <p><strong>Terrain:</strong> <span id="detail-terrain">-</span></p>
+                <p><strong>Resources:</strong> <span id="detail-resources">-</span></p>
+                <p id="detail-capital-status" class="hidden"><strong>Capital</strong></p>
+                <p id="detail-coastal-status" class="hidden"><strong>Coastal Province</strong></p>
+              </div>
+
+              <div class="panel-actions">
+                <button class="btn btn-primary" id="save-details-btn">Save Changes</button>
+                <button class="btn btn-secondary" id="cancel-details-btn">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions Panel -->
+          <div class="panel quick-actions-panel">
+            <h3 class="panel-title">QUICK ACTIONS</h3>
+            <button class="btn btn-primary btn-large btn-full" id="end-turn-btn">END TURN</button>
+            <div class="turn-history">
+              <label class="form-label">Turn History:</label>
+              <div class="turn-badges" id="turn-badges">
+                <!-- Turn badges dynamically added -->
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay hidden" id="modal-overlay">
+      <!-- Add Log Entry Modal -->
+      <div class="modal hidden" id="add-log-modal">
+        <div class="modal-header">
+          <h3>Add Log Entry</h3>
+          <button class="btn-close modal-close-btn">
+            <img src="assets/icons/close.svg" alt="Close">
+          </button>
+        </div>
+        <div class="modal-content">
+          <div class="form-section">
+            <label class="form-label">Faction:</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="log-faction" value="government">
+                <span class="radio-text">Government</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="log-faction" value="jihadist">
+                <span class="radio-text">Jihadist</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <label class="form-label">Category:</label>
+            <select class="form-select" id="log-category">
+              <option value="military">Military</option>
+              <option value="propaganda">Propaganda</option>
+              <option value="economic">Economic</option>
+              <option value="diplomatic">Diplomatic</option>
+              <option value="recruitment">Recruitment</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-section">
+            <label class="form-label">Outcome:</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="log-outcome" value="success">
+                <span class="radio-text">Success</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="log-outcome" value="partial">
+                <span class="radio-text">Partial</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="log-outcome" value="failure">
+                <span class="radio-text">Failure</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <label class="form-label">Provinces Affected:</label>
+            <div class="checkbox-grid provinces-checkboxes" id="log-provinces">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <div class="form-section">
+            <label class="form-label">Description:</label>
+            <textarea class="form-textarea" id="log-description" rows="3" required></textarea>
+          </div>
+
+          <div class="form-section">
+            <label class="form-label">Force Adjustments:</label>
+            <div class="force-adjust-inputs">
+              <div class="adjust-input-group">
+                <label>Government:</label>
+                <input type="number" class="form-input small" id="log-gov-adjust" value="0">
+              </div>
+              <div class="adjust-input-group">
+                <label>Jihadist:</label>
+                <input type="number" class="form-input small" id="log-jih-adjust" value="0">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="create-log-btn">Create Entry</button>
+          <button class="btn btn-secondary modal-close-btn">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Force Adjustment Modal -->
+      <div class="modal modal-small hidden" id="force-adjust-modal">
+        <div class="modal-header">
+          <h3>Adjust <span id="adjust-faction-label">Government</span> Forces</h3>
+          <button class="btn-close modal-close-btn">
+            <img src="assets/icons/close.svg" alt="Close">
+          </button>
+        </div>
+        <div class="modal-content">
+          <div class="form-section">
+            <label class="form-label">Adjust by:</label>
+            <input type="number" class="form-input" id="force-adjust-amount" value="0">
+          </div>
+          <div class="form-section">
+            <label class="form-label">Description:</label>
+            <input type="text" class="form-input" id="force-adjust-desc" placeholder="Reason for adjustment...">
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="confirm-adjust-btn">Confirm</button>
+          <button class="btn btn-secondary modal-close-btn">Cancel</button>
+        </div>
+      </div>
+
+      <!-- New Game Confirmation Modal -->
+      <div class="modal modal-small hidden" id="new-game-modal">
+        <div class="modal-header">
+          <h3>Start New Game?</h3>
+        </div>
+        <div class="modal-content">
+          <p>Current progress will be lost unless exported first.</p>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="export-reset-btn">Export & Reset</button>
+          <button class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button class="btn btn-secondary modal-close-btn">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Import Confirmation Modal -->
+      <div class="modal modal-small hidden" id="import-modal">
+        <div class="modal-header">
+          <h3>Import Game State?</h3>
+        </div>
+        <div class="modal-content">
+          <p>Current progress will be replaced.</p>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="confirm-import-btn">Import</button>
+          <button class="btn btn-secondary modal-close-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Hidden file input for import (outside phases so always accessible) -->
+    <input type="file" id="import-file-input" accept=".json" class="hidden">
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
